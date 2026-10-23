@@ -1,14 +1,15 @@
+import { TeamStats } from '@/types';
 import { By, WebDriver } from 'selenium-webdriver';
 
 async function getSeasonScores(
     driver: WebDriver,
     season: string,
-): Promise<Record<string, string>[]> {
+): Promise<TeamStats[]> {
     await driver.get(
         `https://www.premierleague.com/en/tables/premier-league/${season}/`,
     );
 
-    const teams: Record<string, string>[] = [];
+    const teams: TeamStats[] = [];
 
     for (let i = 1; i < 25; i++) {
         const xpath = `//*[@id="main-content"]/div[1]/div[2]/section/div[2]/table/tbody/tr[${i}]`;
