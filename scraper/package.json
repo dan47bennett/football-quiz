@@ -10,6 +10,7 @@
         "start": "npx tsx ./index.ts "
     },
     "devDependencies": {
+        "@types/lodash": "^4.17.27",
         "@types/node": "^20",
         "@types/selenium-webdriver": "^4.35.6",
         "eslint": "9.22.0",
@@ -18,6 +19,8 @@
         "typescript": "^5"
     },
     "dependencies": {
+        "lodash": "^4.18.1",
+        "mongodb": "^7.7.0",
         "selenium-webdriver": "^4.45.0"
     }
 }
