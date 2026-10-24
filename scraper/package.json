@@ -1,5 +1,5 @@
 {
-    "name": "server",
+    "name": "scraper",
     "version": "1.0.0",
     "description": "",
     "license": "ISC",
@@ -19,6 +19,7 @@
         "typescript": "^5"
     },
     "dependencies": {
+        "dotenv": "^18.0.9",
         "lodash": "^4.18.1",
         "mongodb": "^7.7.0",
         "selenium-webdriver": "^4.45.0"
