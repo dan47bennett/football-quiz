@@ -1,7 +1,7 @@
-import { scrapeLeagueTables } from './scraping';
+import runScraping from './src';
 
-async function main() {
-    await scrapeLeagueTables();
+function main() {
+    void runScraping();
 }
 
-void main();
+main();
