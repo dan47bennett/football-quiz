@@ -1,27 +1,29 @@
 import { TeamStats } from '@/types';
 import { connectToMongoDb, disconnectFromMongoDb } from './mongoDbConnect';
-import { MongoClient } from 'mongodb';
-import createDatabase from './createDatabase';
 
 async function addTeamsToDatabase(teams: TeamStats[]) {
-    let client: MongoClient | undefined;
-
     try {
-        client = await connectToMongoDb();
-    } catch (err) {
-        console.error('Error connecting to MongoDB:', err);
-    } finally {
-        await disconnectFromMongoDb();
-    }
+        const client = await connectToMongoDb();
 
-    try {
         if (client) {
-            await createDatabase(client);
+            const database = client.db('test-database');
+
+            const collection = database.collection('test-team-data');
+
+            const result = await collection.insertMany(teams);
+
+            const ids = result.insertedIds;
+
+            for (let id of Object.values(ids)) {
+                console.log(`Inserted a document with id ${id}`);
+            }
         } else {
             throw 'No database connection';
         }
     } catch (err) {
-        console.error('Error adding teams to database:', err);
+        console.error('Error addding teams to database:', err);
+    } finally {
+        await disconnectFromMongoDb();
     }
 }
 
