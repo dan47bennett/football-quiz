@@ -1,7 +1,7 @@
-import { TeamStats } from '@/types';
+import { SeasonStats } from '@/types';
 import { connectToMongoDb, disconnectFromMongoDb } from './mongoDbConnect';
 
-async function addTeamsToDatabase(teams: TeamStats[]) {
+async function addTeamsToDatabase(teams: SeasonStats[]) {
     try {
         const client = await connectToMongoDb();
 

@@ -2,10 +2,12 @@ import { addTeamsToDatabase } from './database';
 import { scrapeLeagueTables } from './scraping';
 
 async function runScraping() {
-    const allTeams = await scrapeLeagueTables();
+    const { teams, names } = await scrapeLeagueTables();
+    console.log('names: ', names);
+    console.log('teams: ', teams);
 
     try {
-        await addTeamsToDatabase(allTeams);
+        // await addTeamsToDatabase(teams);
         // await addTeamsToDatabase([]);
     } catch (err) {
         console.error('Error adding teams to database:', err);

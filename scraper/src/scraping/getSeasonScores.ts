@@ -1,15 +1,16 @@
-import { TeamStats } from '@/types';
+import { SeasonStats } from '@/types';
 import { By, WebDriver } from 'selenium-webdriver';
 
 async function getSeasonScores(
     driver: WebDriver,
     season: string,
-): Promise<TeamStats[]> {
+): Promise<{ seasons: SeasonStats[]; names: string[] }> {
     await driver.get(
         `https://www.premierleague.com/en/tables/premier-league/${season}/`,
     );
 
-    const teams: TeamStats[] = [];
+    const seasons: SeasonStats[] = [];
+    const names: string[] = [];
 
     for (let i = 1; i < 25; i++) {
         const xpath = `//*[@id="main-content"]/div[1]/div[2]/section/div[2]/table/tbody/tr[${i}]`;
@@ -25,21 +26,24 @@ async function getSeasonScores(
                 const goalsAgainst = await columns[7].getText();
                 const goalDifference = await columns[8].getText();
 
+                names.push(teamName);
+
                 const teamValue = {
                     teamName,
                     goalDifference,
                     goalsAgainst,
                     goalsFor,
+                    season,
                 };
 
-                teams.push(teamValue);
+                seasons.push(teamValue);
             }
         } catch (err) {
             continue;
         }
     }
 
-    return teams;
+    return { seasons, names };
 }
 
 export default getSeasonScores;

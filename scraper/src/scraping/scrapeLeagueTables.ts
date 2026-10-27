@@ -1,9 +1,12 @@
 import { delay } from '../utils';
 import { Builder, Browser } from 'selenium-webdriver';
 import getSeasonScores from './getSeasonScores';
-import { TeamStats } from '@/types';
+import { SeasonStats } from '@/types';
 
-async function scrapeLeagueTables(): Promise<TeamStats[]> {
+async function scrapeLeagueTables(): Promise<{
+    seasons: SeasonStats[];
+    names: string[];
+}> {
     console.log('Starting...');
 
     const seasons: string[] = [];
@@ -16,7 +19,9 @@ async function scrapeLeagueTables(): Promise<TeamStats[]> {
 
     let driver = await new Builder().forBrowser(Browser.CHROME).build();
 
-    const allTeams: TeamStats[] = [];
+    const allSeasons: SeasonStats[] = [];
+
+    let allNames: string[] = [];
 
     try {
         await Promise.all(
@@ -24,8 +29,13 @@ async function scrapeLeagueTables(): Promise<TeamStats[]> {
                 await delay(5000 * i);
 
                 try {
-                    const teams = await getSeasonScores(driver, season);
-                    allTeams.push(...teams);
+                    const { seasons, names } = await getSeasonScores(
+                        driver,
+                        season,
+                    );
+                    allSeasons.push(...seasons);
+
+                    allNames = [...new Set([...allNames, ...names])];
                 } catch (err) {
                     console.error(
                         `Error occurred while scraping season ${season}:`,
@@ -40,7 +50,7 @@ async function scrapeLeagueTables(): Promise<TeamStats[]> {
         await driver.quit();
     }
 
-    return allTeams;
+    return { seasons: allSeasons, names: allNames };
 }
 
 export default scrapeLeagueTables;
