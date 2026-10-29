@@ -1,1 +1,1 @@
-export { default as addTeamsToDatabase } from './addTeamsToDatabase';
+export { default as addSeasonsToDatabase } from './addSeasonsToDatabase';
