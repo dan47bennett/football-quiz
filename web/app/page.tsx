@@ -1,5 +1,9 @@
-import Image from 'next/image';
+import Seasons from '@/components/Seasons';
 
 export default function Home() {
-    return <div>Hello World</div>;
+    return (
+        <main>
+            <Seasons endpoint="/api/seasons" />
+        </main>
+    );
 }
